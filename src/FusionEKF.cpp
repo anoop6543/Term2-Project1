@@ -36,32 +36,32 @@ FusionEKF::FusionEKF() {
     * Finish initializing the FusionEKF.
     * Set the process and measurement noises
   */
-  // Initialise P (object covariance) as zero matrix
+  // Initialize P (object covariance) as zero matrix
     ekf_.P_ = MatrixXd(4, 4);
     ekf_.P_ << 1, 0, 0, 0,
                 0, 1, 0, 0,
                 0, 0, 1000, 0,
                 0, 0, 0, 1000;
 
-    // Initialise F with dt = 0
+    // Initialize F with dt = 0
     ekf_.F_ = MatrixXd(4, 4);
     ekf_.F_ << 1, 0, 0, 0,
                 0, 1, 0, 0,
                 0, 0, 1, 0,
                 0, 0, 0, 1;
     
-    // Initialise H_laser
+    // Initialize H_laser
     H_laser_ << 1, 0, 0, 0,
                 0, 1, 0, 0;
     
-    // Initialise H
+    // Initialize H
     ekf_.H_ = MatrixXd(4, 4);
     ekf_.H_ << 1, 0, 0, 0,
                 0, 1, 0, 0,
                 0, 0, 1, 0,
                 0, 0, 0, 1;
 
-    cout << "FusionEKF::FusionEKF() initialised" << endl;
+    cout << "FusionEKF::FusionEKF() initialized" << endl;
 
   int noise_ax = 9;
   int noise_ay = 9; 
@@ -169,9 +169,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
     float dt_3 = dt_2 * dt;
     float dt_4 = dt_3 * dt;
 
-     cout << "Modify F matrix" << endl;
+     cout << "Modifying F matrix" << endl;
     
-    //Modify the F matrix so that the time is integrated
+    //Modify the F matrix so that the time is included
     ekf_.F_(0, 2) = dt;
     ekf_.F_(1, 3) = dt;
     
@@ -186,11 +186,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
                 0, dt_4/4 * noise_ay, 0, dt_3/2 * noise_ay,
                 dt_3/2 * noise_ax, 0, dt_2 * noise_ax, 0,
                 0, dt_3/2 * noise_ay, 0, dt_2 * noise_ay;
-    cout << "Finished updating Q" << endl;
+    cout << "Done updating Q" << endl;
 
 
   ekf_.Predict();
-  cout << "Predicted" << endl;
+  cout << "Prediction completed" << endl;
   /*****************************************************************************
    *  Update
    ****************************************************************************/
